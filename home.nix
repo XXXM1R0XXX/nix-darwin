@@ -1,8 +1,9 @@
 { config, pkgs, ... }:
 
 {
-  home.username = "valet";        # замени на имя macOS пользователя
-  home.homeDirectory = "/Users/valet";
+  programs.zsh = {
+    enable = true;
+  };
 
   programs.starship = {
     enable = true;
@@ -10,4 +11,6 @@
   };
 
   home.stateVersion = "25.05";
+
+  programs.home-manager.enable = true;
 }

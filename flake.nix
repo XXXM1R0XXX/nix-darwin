@@ -14,6 +14,8 @@
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
         [ pkgs.vim
+	  pkgs.starship
+	  pkgs.neofetch
         ];
 
       # Necessary for using flakes on this system.

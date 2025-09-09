@@ -1,45 +1,63 @@
 {
-  description = "Example nix-darwin system flake";
+  description = "Пример полной конфигурации nix-darwin с flakes и home-manager";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager }:
   let
-    configuration = { pkgs, ... }: {
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
-      environment.systemPackages =
-        [ pkgs.vim
-	  pkgs.starship
-	  pkgs.neofetch
-        ];
+    system = "aarch64-darwin"; # или "x86_64-darwin" для Intel Mac
 
-      # Necessary for using flakes on this system.
+    configuration = { config, pkgs, ... }: {
+      users.users.valet.home = "/Users/valet";
+
+      # Включение flake и nix-команд
       nix.settings.experimental-features = "nix-command flakes";
 
-      # Enable alternative shell support in nix-darwin.
-      # programs.fish.enable = true;
+      # Пакеты, которые будут установлены в системном профиле
+      environment.systemPackages = [
+        pkgs.vim
+        pkgs.starship
+        pkgs.neofetch
+      ];
 
-      # Set Git commit hash for darwin-version.
-      system.configurationRevision = self.rev or self.dirtyRev or null;
-
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
+      # Версия состояния системы (важно для совместимости)
       system.stateVersion = 6;
 
-      # The platform the configuration will be used on.
-      nixpkgs.hostPlatform = "aarch64-darwin";
+      # Для darwin-version (опционально, для отслеживания коммитов)
+      system.configurationRevision = self.rev or self.dirtyRev or null;
+
+      # Платформа (Apple Silicon или Intel)
+      nixpkgs.hostPlatform = system;
+
+      # Интеграция Home Manager
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+
+      home-manager.users.valet = import ./home.nix;
     };
-  in
-  {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#nihilist
-    darwinConfigurations."nihilist" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
+  in {
+    # Определение конфига для системы с именем 'valet'
+    darwinConfigurations = {
+      nihilist = nix-darwin.lib.darwinSystem {
+        system = system;
+        modules = [
+          configuration
+          home-manager.darwinModules.home-manager
+          # Кроме того, опции home-manager можно задать еще здесь:
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.valet = import ./home.nix;
+          }
+        ];
+        specialArgs = { inherit inputs; };
+      };
     };
   };
 }

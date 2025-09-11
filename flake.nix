@@ -8,6 +8,10 @@
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # кастомный шрифт из приватного репозитория
+    comic-code.url = "git+ssh://git@github.com/XXXM1R0XXX/ComicCode";
+    comic-code.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -16,41 +20,33 @@
       nix-darwin,
       nixpkgs,
       home-manager,
+      comic-code,
+      ...
     }:
     let
       configuration =
         { pkgs, ... }:
         {
-          # List packages installed in system profile. To search by name, run:
-          # $ nix-env -qaP | grep wget
           environment.systemPackages = [
             pkgs.vim
             pkgs.starship
           ];
 
-          # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
-
-          # Set Git commit hash for darwin-version.
           system.configurationRevision = self.rev or self.dirtyRev or null;
-
-          # Used for backwards compatibility, please read the changelog before changing.
-          # $ darwin-rebuild changelog
           system.stateVersion = 6;
-
-          # The platform the configuration will be used on.
           nixpkgs.hostPlatform = "aarch64-darwin";
 
           users.users.valet.home = "/Users/valet";
 
-          fonts.localFonts = [
-            "./ComicCodeFont/OTF/*.otf"
+          # шрифт Comic Code попадет в /Library/Fonts/Nix Fonts
+          fonts.packages = [
+            inputs.comic-code.packages.${pkgs.system}.default
           ];
+          nixpkgs.config.allowUnfree = true;
         };
     in
     {
-      # Build darwin flake using:
-      # $ darwin-rebuild build --flake .#nihilist
       darwinConfigurations."nihilist" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
@@ -59,9 +55,6 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.valet = ./home.nix;
-
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
           }
         ];
       };

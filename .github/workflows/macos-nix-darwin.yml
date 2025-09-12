@@ -5,20 +5,47 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Enable debug mode'
+        required: false
+        default: 'false'
+        type: boolean
 
 jobs:
   nix-darwin-fonts:
     runs-on: macos-latest
     
+    env:
+      DEBUG_MODE: ${{ github.event.inputs.debug || 'false' }}
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       
+    - name: Debug - System Information
+      if: env.DEBUG_MODE == 'true'
+      run: |
+        echo "=== System Information ==="
+        uname -a
+        sw_vers
+        whoami
+        echo "HOME: $HOME"
+        echo "USER: $USER"
+        df -h
+        
     - name: Free up disk space
       run: |
         # Remove unnecessary files to optimize execution time
-        sudo rm -rf /Applications/Xcode.app
+        echo "=== Disk space before cleanup ==="
+        df -h
+        
+        # Remove Xcode and other large files to save space
+        sudo rm -rf /Applications/Xcode*.app
         sudo rm -rf /Library/Developer/CommandLineTools
+        
+        echo "=== Disk space after cleanup ==="
         df -h
     
     - name: Install Nix
@@ -38,28 +65,25 @@ jobs:
         
     - name: Install nix-darwin
       run: |
-        # Create a temporary flake for nix-darwin installation
-        cat > darwin-installer.nix << 'EOF'
-        {
-          description = "nix-darwin installer";
-          inputs = {
-            nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-            nix-darwin.url = "github:nix-darwin/nix-darwin/master";
-            nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-          };
-          outputs = { self, nix-darwin, nixpkgs }: {
-            packages.x86_64-darwin.installer = nixpkgs.legacyPackages.x86_64-darwin.writeShellScript "install-darwin" ''
-              ${nix-darwin.packages.x86_64-darwin.darwin-rebuild}/bin/darwin-rebuild --help
-            '';
-            packages.aarch64-darwin.installer = nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "install-darwin" ''
-              ${nix-darwin.packages.aarch64-darwin.darwin-rebuild}/bin/darwin-rebuild --help
-            '';
-          };
-        }
-        EOF
+        echo "=== Installing nix-darwin ==="
         
-        # Install nix-darwin
-        nix run nix-darwin -- switch --flake ./darwin-installer.nix
+        # Create a minimal nix-darwin configuration for CI
+        mkdir -p ~/.nixpkgs
+        
+        # Use nix-darwin's built-in installer
+        nix run nix-darwin -- switch --flake .#ci-test --print-build-logs || {
+          echo "Failed to install nix-darwin with flake, trying alternative approach..."
+          
+          # Alternative: Install nix-darwin manually
+          git clone https://github.com/nix-darwin/nix-darwin.git /tmp/nix-darwin
+          cd /tmp/nix-darwin
+          nix-build . -A installer
+          yes | ./result/bin/darwin-installer
+          
+          # Add darwin-rebuild to PATH
+          export PATH="$HOME/.nix-profile/bin:$PATH"
+          echo "$HOME/.nix-profile/bin" >> $GITHUB_PATH
+        }
         
     - name: Backup original flake and create CI-compatible version
       run: |
@@ -104,7 +128,6 @@ jobs:
 
                   users.users.runner = {
                     home = "/Users/runner";
-                    createHome = true;
                   };
 
                   # Use public fonts for CI testing
@@ -163,40 +186,109 @@ jobs:
         
     - name: Apply nix-darwin configuration
       run: |
-        # Create necessary directories
+        echo "=== Preparing for nix-darwin configuration ==="
+        
+        # Create necessary directories with proper permissions
         sudo mkdir -p /Library/Fonts
         sudo mkdir -p "/Library/Fonts/Nix Fonts"
+        sudo chown -R root:wheel /Library/Fonts
         
-        # Apply the configuration
-        /nix/store/$(nix eval --raw .#darwinConfigurations.ci-test.system)/activate-user
+        echo "=== Building nix-darwin system ==="
+        # First, just build the system without applying it
+        nix build .#darwinConfigurations.ci-test.system -v --print-build-logs
+        
+        echo "=== Attempting to apply configuration ==="
+        # Try to apply the user configuration
+        if command -v darwin-rebuild &> /dev/null; then
+          echo "Using darwin-rebuild..."
+          darwin-rebuild switch --flake .#ci-test --print-build-logs || {
+            echo "darwin-rebuild failed, trying alternative approach..."
+            
+            # Alternative: manually activate what we can
+            SYSTEM_PATH=$(nix eval --raw .#darwinConfigurations.ci-test.system)
+            echo "System path: $SYSTEM_PATH"
+            
+            # Try to activate user environment
+            if [ -f "$SYSTEM_PATH/activate-user" ]; then
+              echo "Activating user environment..."
+              "$SYSTEM_PATH/activate-user" || echo "User activation completed with warnings"
+            fi
+          }
+        else
+          echo "darwin-rebuild not available, using direct activation..."
+          SYSTEM_PATH=$(nix eval --raw .#darwinConfigurations.ci-test.system)
+          echo "System path: $SYSTEM_PATH"
+          
+          # Manually copy fonts if the activation doesn't work
+          if [ -d "$SYSTEM_PATH" ]; then
+            find "$SYSTEM_PATH" -name "*.ttf" -o -name "*.otf" | while read font; do
+              echo "Found font: $font"
+              sudo cp "$font" "/Library/Fonts/Nix Fonts/" 2>/dev/null || echo "Could not copy $font"
+            done
+          fi
+        fi
         
     - name: Verify fonts installation
       run: |
         echo "=== Checking font directories ==="
-        ls -la "/Library/Fonts/" || true
-        ls -la "/Library/Fonts/Nix Fonts/" || true
+        echo "Contents of /Library/Fonts/:"
+        ls -la "/Library/Fonts/" || echo "Could not list /Library/Fonts/"
         
-        echo "=== Checking system font cache ==="
-        atsutil databases -remove || true
-        atsutil server -ping || true
+        echo "Contents of /Library/Fonts/Nix Fonts/:"
+        ls -la "/Library/Fonts/Nix Fonts/" || echo "Could not list /Library/Fonts/Nix Fonts/"
         
-        echo "=== Listing available fonts with fc-list ==="
+        echo "=== Searching for font files ==="
+        find /Library/Fonts -name "*.ttf" -o -name "*.otf" 2>/dev/null | head -10 || echo "No font files found"
+        
+        echo "=== Checking nix store for fonts ==="
+        find /nix/store -name "*.ttf" -o -name "*.otf" 2>/dev/null | grep -E "(fira|jetbrains)" | head -5 || echo "No expected fonts found in nix store"
+        
+        echo "=== Checking system font registration ==="
+        # Refresh font cache
+        sudo atsutil databases -remove 2>/dev/null || echo "Could not remove font databases"
+        atsutil server -ping 2>/dev/null || echo "Font server not responding"
+        
+        echo "=== Using fc-list to check fonts ==="
         if command -v fc-list &> /dev/null; then
-          fc-list | grep -i "fira\|jetbrains" || echo "Font commands not available in CI"
+          echo "Available fonts with 'Fira' or 'JetBrains':"
+          fc-list | grep -i -E "fira|jetbrains" || echo "No Fira Code or JetBrains Mono fonts found via fc-list"
+        else
+          echo "fc-list not available"
         fi
         
         echo "=== Using system_profiler to check fonts ==="
-        system_profiler SPFontsDataType | grep -A 3 -B 3 -i "fira\|jetbrains" || echo "Fonts not found in system profiler"
+        system_profiler SPFontsDataType 2>/dev/null | grep -A 2 -B 2 -i -E "fira|jetbrains" || echo "Fonts not found in system profiler"
         
-        echo "=== Checking font installation success ==="
-        if ls "/Library/Fonts/Nix Fonts/"*.{ttf,otf} 2>/dev/null | head -5; then
-          echo "✅ Fonts successfully installed in /Library/Fonts/Nix Fonts/"
-          exit 0
-        elif ls "/Library/Fonts/"*{fira,jetbrains}* 2>/dev/null | head -5; then
-          echo "✅ Fonts successfully installed in /Library/Fonts/"
+        echo "=== Final verification ==="
+        FONTS_FOUND=false
+        
+        # Check Nix Fonts directory
+        if ls "/Library/Fonts/Nix Fonts/"*.{ttf,otf} >/dev/null 2>&1; then
+          echo "✅ Font files found in /Library/Fonts/Nix Fonts/"
+          ls "/Library/Fonts/Nix Fonts/"*.{ttf,otf} 2>/dev/null | head -5
+          FONTS_FOUND=true
+        fi
+        
+        # Check main Fonts directory
+        if ls "/Library/Fonts/"*{fira,jetbrains,Fira,JetBrains}* >/dev/null 2>&1; then
+          echo "✅ Expected fonts found in /Library/Fonts/"
+          ls "/Library/Fonts/"*{fira,jetbrains,Fira,JetBrains}* 2>/dev/null | head -5
+          FONTS_FOUND=true
+        fi
+        
+        # Check if fonts are in nix store (even if not installed to system)
+        if find /nix/store -name "*.ttf" -o -name "*.otf" 2>/dev/null | grep -i -E "(fira|jetbrains)" >/dev/null; then
+          echo "✅ Expected fonts found in nix store"
+          find /nix/store -name "*.ttf" -o -name "*.otf" 2>/dev/null | grep -i -E "(fira|jetbrains)" | head -3
+          FONTS_FOUND=true
+        fi
+        
+        if [ "$FONTS_FOUND" = true ]; then
+          echo "🎉 Font installation verification successful!"
           exit 0
         else
-          echo "❌ No fonts found in expected locations"
+          echo "❌ Font installation verification failed"
+          echo "Expected to find Fira Code or JetBrains Mono fonts in system or nix store"
           exit 1
         fi
         

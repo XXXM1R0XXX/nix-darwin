@@ -1,0 +1,217 @@
+name: macOS nix-darwin Font Installation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  nix-darwin-fonts:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Free up disk space
+      run: |
+        # Remove unnecessary files to optimize execution time
+        sudo rm -rf /Applications/Xcode.app
+        sudo rm -rf /Library/Developer/CommandLineTools
+        df -h
+    
+    - name: Install Nix
+      uses: cachix/install-nix-action@v26
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+        extra_nix_config: |
+          experimental-features = nix-command flakes
+          access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+          
+    - name: Setup Nix cache
+      uses: cachix/cachix-action@v14
+      with:
+        name: nix-community
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+        skipPush: true
+        
+    - name: Install nix-darwin
+      run: |
+        # Create a temporary flake for nix-darwin installation
+        cat > darwin-installer.nix << 'EOF'
+        {
+          description = "nix-darwin installer";
+          inputs = {
+            nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+            nix-darwin.url = "github:nix-darwin/nix-darwin/master";
+            nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+          };
+          outputs = { self, nix-darwin, nixpkgs }: {
+            packages.x86_64-darwin.installer = nixpkgs.legacyPackages.x86_64-darwin.writeShellScript "install-darwin" ''
+              ${nix-darwin.packages.x86_64-darwin.darwin-rebuild}/bin/darwin-rebuild --help
+            '';
+            packages.aarch64-darwin.installer = nixpkgs.legacyPackages.aarch64-darwin.writeShellScript "install-darwin" ''
+              ${nix-darwin.packages.aarch64-darwin.darwin-rebuild}/bin/darwin-rebuild --help
+            '';
+          };
+        }
+        EOF
+        
+        # Install nix-darwin
+        nix run nix-darwin -- switch --flake ./darwin-installer.nix
+        
+    - name: Backup original flake and create CI-compatible version
+      run: |
+        # Create a version of flake.nix that works in CI without private repository
+        cp flake.nix flake.nix.original
+        
+        # Create a CI-compatible flake that uses a public font instead
+        cat > flake.nix << 'EOF'
+        {
+          description = "Example nix-darwin system flake for CI";
+
+          inputs = {
+            nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+            nix-darwin.url = "github:nix-darwin/nix-darwin/master";
+            nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+            home-manager.url = "github:nix-community/home-manager";
+            home-manager.inputs.nixpkgs.follows = "nixpkgs";
+          };
+
+          outputs =
+            inputs@{
+              self,
+              nix-darwin,
+              nixpkgs,
+              home-manager,
+              ...
+            }:
+            let
+              configuration =
+                { pkgs, ... }:
+                {
+                  environment.systemPackages = [
+                    pkgs.vim
+                    pkgs.starship
+                  ];
+
+                  nix.settings.experimental-features = "nix-command flakes";
+                  system.configurationRevision = self.rev or self.dirtyRev or null;
+                  system.stateVersion = 6;
+                  nixpkgs.hostPlatform = "aarch64-darwin";
+
+                  users.users.runner = {
+                    home = "/Users/runner";
+                    createHome = true;
+                  };
+
+                  # Use public fonts for CI testing
+                  fonts.packages = with pkgs; [
+                    fira-code
+                    jetbrains-mono
+                  ];
+                  nixpkgs.config.allowUnfree = true;
+                };
+            in
+            {
+              darwinConfigurations."ci-test" = nix-darwin.lib.darwinSystem {
+                modules = [
+                  configuration
+                  home-manager.darwinModules.home-manager
+                  {
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.useUserPackages = true;
+                    home-manager.users.runner = ./home.nix;
+                  }
+                ];
+              };
+            };
+        }
+        EOF
+        
+    - name: Update home.nix for CI user
+      run: |
+        # Update home.nix to work with runner user
+        cat > home.nix << 'EOF'
+        { config, pkgs, ... }:
+
+        {
+          programs.zsh = {
+            enable = true;
+          };
+
+          programs.starship = {
+            enable = true;
+            enableZshIntegration = true;
+          };
+
+          home.stateVersion = "25.05";
+
+          programs.home-manager.enable = true;
+        }
+        EOF
+        
+    - name: Build nix-darwin configuration
+      run: |
+        # Update flake lock for CI environment
+        nix flake update
+        
+        # Build the configuration to verify it works
+        nix build .#darwinConfigurations.ci-test.system --no-link -v
+        
+    - name: Apply nix-darwin configuration
+      run: |
+        # Create necessary directories
+        sudo mkdir -p /Library/Fonts
+        sudo mkdir -p "/Library/Fonts/Nix Fonts"
+        
+        # Apply the configuration
+        /nix/store/$(nix eval --raw .#darwinConfigurations.ci-test.system)/activate-user
+        
+    - name: Verify fonts installation
+      run: |
+        echo "=== Checking font directories ==="
+        ls -la "/Library/Fonts/" || true
+        ls -la "/Library/Fonts/Nix Fonts/" || true
+        
+        echo "=== Checking system font cache ==="
+        atsutil databases -remove || true
+        atsutil server -ping || true
+        
+        echo "=== Listing available fonts with fc-list ==="
+        if command -v fc-list &> /dev/null; then
+          fc-list | grep -i "fira\|jetbrains" || echo "Font commands not available in CI"
+        fi
+        
+        echo "=== Using system_profiler to check fonts ==="
+        system_profiler SPFontsDataType | grep -A 3 -B 3 -i "fira\|jetbrains" || echo "Fonts not found in system profiler"
+        
+        echo "=== Checking font installation success ==="
+        if ls "/Library/Fonts/Nix Fonts/"*.{ttf,otf} 2>/dev/null | head -5; then
+          echo "✅ Fonts successfully installed in /Library/Fonts/Nix Fonts/"
+          exit 0
+        elif ls "/Library/Fonts/"*{fira,jetbrains}* 2>/dev/null | head -5; then
+          echo "✅ Fonts successfully installed in /Library/Fonts/"
+          exit 0
+        else
+          echo "❌ No fonts found in expected locations"
+          exit 1
+        fi
+        
+    - name: Restore original flake
+      if: always()
+      run: |
+        # Restore the original flake.nix for future use
+        if [ -f flake.nix.original ]; then
+          mv flake.nix.original flake.nix
+        fi
+        
+    - name: Cleanup and optimization
+      if: always()
+      run: |
+        # Clean up temporary files and nix store to optimize space
+        nix store gc || true
+        nix store optimise || true
+        df -h

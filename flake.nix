@@ -18,14 +18,43 @@
       home-manager,
     }:
     let
+      # configuration — функция, получающая `pkgs` и возвращающая nix-darwin конфиг.
       configuration =
         { pkgs, ... }:
+        let
+          # Пакет со шрифтами. Используем mkDerivation и builtins.path с recursive = true,
+          # чтобы гарантированно положить реальные файлы в store (и избежать проблем
+          # с симлинками из git).
+          comic-code = pkgs.stdenv.mkDerivation {
+            pname = "ComicCodeFont";
+
+            # builtins.path гарантирует, что путь будет скопирован в store.
+            # recursive = true полезно, если внутри папки есть поддиректории.
+            src = builtins.path {
+              path = ./comic-code;
+              name = "comiccode-fonts";
+              recursive = true;
+            };
+
+            # Не требуется сложной сборки: просто копируем .otf в стандартный fonts-путь.
+            installPhase = ''
+              mkdir -p $out/share/fonts/opentype
+              # Копируем все otf файлы (если нет — ничего не упадёт благодаря || true)
+              cp -a $src/*.otf $out/share/fonts/opentype || true
+            '';
+
+            # Минимум метаданных, чтобы nix не ругался.
+            meta = with pkgs.lib; {
+              description = "Private ComicCode OTF fonts (packaged for nix-darwin)";
+            };
+          };
+        in
         {
-          # List packages installed in system profile. To search by name, run:
-          # $ nix-env -qaP | grep wget
+          # List packages installed in system profile.
           environment.systemPackages = [
             pkgs.vim
             pkgs.starship
+            comic-code # добавляем наш пакет со шрифтами в системный профиль
           ];
 
           # Necessary for using flakes on this system.
@@ -42,10 +71,6 @@
           nixpkgs.hostPlatform = "aarch64-darwin";
 
           users.users.valet.home = "/Users/valet";
-
-          fonts.localFonts = [
-            "./ComicCodeFont/OTF/*.otf"
-          ];
         };
     in
     {
@@ -59,9 +84,6 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.valet = ./home.nix;
-
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
           }
         ];
       };

@@ -30,11 +30,7 @@
 
             # builtins.path гарантирует, что путь будет скопирован в store.
             # recursive = true полезно, если внутри папки есть поддиректории.
-            src = builtins.path {
-              path = ./comic-code;
-              name = "comiccode-fonts";
-              recursive = true;
-            };
+            src = ./comic-code;
 
             # Не требуется сложной сборки: просто копируем .otf в стандартный fonts-путь.
             installPhase = ''

@@ -50,7 +50,6 @@
           environment.systemPackages = [
             pkgs.vim
             pkgs.starship
-            comic-code # добавляем наш пакет со шрифтами в системный профиль
           ];
 
           # Necessary for using flakes on this system.
@@ -67,7 +66,7 @@
           nixpkgs.hostPlatform = "aarch64-darwin";
 
           users.users.valet.home = "/Users/valet";
-          fonts.packages = [comic-code];
+          fonts.packages = [ comic-code ];
         };
     in
     {

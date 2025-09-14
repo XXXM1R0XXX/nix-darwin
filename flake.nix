@@ -27,7 +27,7 @@
           # с симлинками из git).
           comic-code = pkgs.stdenv.mkDerivation {
             pname = "ComicCodeFont";
-
+            version = "1.0";
             # builtins.path гарантирует, что путь будет скопирован в store.
             # recursive = true полезно, если внутри папки есть поддиректории.
             src = ./comic-code;

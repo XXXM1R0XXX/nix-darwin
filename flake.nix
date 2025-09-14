@@ -67,7 +67,7 @@
           nixpkgs.hostPlatform = "aarch64-darwin";
 
           users.users.valet.home = "/Users/valet";
-          fonts.fonts = [comic-code];
+          fonts.packages = [comic-code];
         };
     in
     {

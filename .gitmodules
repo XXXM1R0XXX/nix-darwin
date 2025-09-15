@@ -1,0 +1,3 @@
+[submodule "comic-code"]
+	path = comic-code
+	url = https://github.com/XXXM1R0XXX/comic-code.git

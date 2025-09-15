@@ -8,6 +8,8 @@
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    comic-code.url = "path:./comic-code";
   };
 
   outputs =
@@ -16,35 +18,12 @@
       nix-darwin,
       nixpkgs,
       home-manager,
+      comic-code,
     }:
     let
       # configuration — функция, получающая `pkgs` и возвращающая nix-darwin конфиг.
       configuration =
         { pkgs, ... }:
-        let
-          # Пакет со шрифтами. Используем mkDerivation и builtins.path с recursive = true,
-          # чтобы гарантированно положить реальные файлы в store (и избежать проблем
-          # с симлинками из git).
-          comic-code = pkgs.stdenv.mkDerivation {
-            pname = "ComicCodeFont";
-            version = "1.0";
-            # builtins.path гарантирует, что путь будет скопирован в store.
-            # recursive = true полезно, если внутри папки есть поддиректории.
-            src = ./comic-code;
-
-            # Не требуется сложной сборки: просто копируем .otf в стандартный fonts-путь.
-            installPhase = ''
-              mkdir -p $out/share/fonts/opentype
-              # Копируем все otf файлы (если нет — ничего не упадёт благодаря || true)
-              cp -a $src/*.otf $out/share/fonts/opentype || true
-            '';
-
-            # Минимум метаданных, чтобы nix не ругался.
-            meta = with pkgs.lib; {
-              description = "Private ComicCode OTF fonts (packaged for nix-darwin)";
-            };
-          };
-        in
         {
           # List packages installed in system profile.
           environment.systemPackages = [
@@ -66,7 +45,7 @@
           nixpkgs.hostPlatform = "aarch64-darwin";
 
           users.users.valet.home = "/Users/valet";
-          fonts.packages = [ comic-code ];
+          fonts.packages = [ comic-code.packages.${pkgs.system}.default ];
         };
     in
     {

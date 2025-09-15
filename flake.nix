@@ -10,6 +10,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     comic-code.url = "path:./comic-code";
+    self.submodules = true;
   };
 
   outputs =

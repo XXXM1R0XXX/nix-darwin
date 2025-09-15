@@ -45,7 +45,7 @@
           nixpkgs.hostPlatform = "aarch64-darwin";
 
           users.users.valet.home = "/Users/valet";
-          fonts.packages = [ comic-code.packages.${pkgs.system}.default ];
+          fonts.packages = [ comic-code.packages.${pkgs.system}.font ];
         };
     in
     {

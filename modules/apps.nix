@@ -24,11 +24,10 @@
     git
     just
     vscode
-    tailscale
-    # ghostty
     # raycast
     stats
     orbstack
+    btop
   ];
 
   # TODO To make this work, homebrew need to be installed manually, see https://brew.sh
@@ -41,7 +40,7 @@
     onActivation = {
       autoUpdate = false;
       # 'zap': uninstalls all formulae(and related files) not listed here.
-      # cleanup = "zap";
+      cleanup = "zap";
     };
 
     # taps = [
@@ -57,7 +56,9 @@
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
     casks = [
-      # "google-chrome"
+      # "arc"
+      "tailscale-app"
+      "ghostty"
     ];
   };
 }

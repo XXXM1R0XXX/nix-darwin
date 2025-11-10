@@ -90,7 +90,7 @@
               "homebrew/homebrew-bundle" = homebrew-bundle;
             };
             mutableTaps = false;
-            autoMigrate = true;
+            # autoMigrate = true;
           };
         }
       ];

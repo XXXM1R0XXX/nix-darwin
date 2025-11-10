@@ -4,6 +4,31 @@
 
 ## How to Use
 
+### Prerequisites
+
+- Xcode Command Line Tools: `xcode-select --install`
+- Nix: `curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install`
+
+### Installation
+
+1. Clone the repository and navigate into it:
+   ```bash
+   nix run github:XXXM1R0XXX/nix-darwin?ref=minimal
+   ```
+2. Build and activate the configuration:
+   ```bash
+   sudo darwin-rebuild switch --flake .#nihilist
+   ```
+   or for a specific hostname:
+   ```bash
+   nix build .#darwinConfigurations.hostname.system \
+ 	--extra-experimental-features 'nix-command flakes'
+   
+   sudo -E ./result/sw/bin/darwin-rebuild switch --flake .#hostname
+   ```
+
+## Original How to Use
+
 1. Install Nix package manager via [Nix Official](https://nixos.org/download.html#nix-install-macos) or [DeterminateSystems/nix-installer](https://github.com/DeterminateSystems/nix-installer).
 2. Read all the files in this `minimal` folder, and understand what they do.
    1. If you have trouble understanding, [ryan4yin/nixos-and-flakes-book](https://github.com/ryan4yin/nixos-and-flakes-book) is a good resource to learn nix and flakes.

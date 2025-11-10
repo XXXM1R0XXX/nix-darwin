@@ -24,6 +24,11 @@
     git
     just
     vscode
+    tailscale
+    # ghostty
+    # raycast
+    stats
+    orbstack
   ];
 
   # TODO To make this work, homebrew need to be installed manually, see https://brew.sh

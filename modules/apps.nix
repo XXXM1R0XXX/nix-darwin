@@ -43,9 +43,11 @@
       cleanup = "zap";
     };
 
-    # taps = [
-    #   "homebrew/services"
-    # ];
+    taps = [
+      "homebrew/bundle"
+      "homebrew/cask"
+      #   "homebrew/services"
+    ];
 
     # `brew install`
     # TODO Feel free to add your favorite apps here.

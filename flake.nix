@@ -27,6 +27,22 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
+
+    nix-homebrew = {
+      url = "github:zhaofengli-wip/nix-homebrew";
+    };
+    homebrew-bundle = {
+      url = "github:homebrew/homebrew-bundle";
+      flake = false;
+    };
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
   };
 
   # The `outputs` function will return all the build results of the flake.
@@ -38,6 +54,10 @@
     self,
     nixpkgs,
     darwin,
+    nix-homebrew,
+    homebrew-bundle,
+    homebrew-core,
+    homebrew-cask,
     ...
   }: let
     # TODO replace with your own username, system and hostname
@@ -58,6 +78,21 @@
         ./modules/system.nix
         ./modules/apps.nix
         ./modules/host-users.nix
+
+        nix-homebrew.darwinModules.nix-homebrew
+        {
+          nix-homebrew = {
+            user = username;
+            enable = true;
+            taps = {
+              "homebrew/homebrew-core" = homebrew-core;
+              "homebrew/homebrew-cask" = homebrew-cask;
+              "homebrew/homebrew-bundle" = homebrew-bundle;
+            };
+            mutableTaps = false;
+            autoMigrate = true;
+          };
+        }
       ];
     };
     # nix code formatter

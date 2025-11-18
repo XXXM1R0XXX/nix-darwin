@@ -18,9 +18,10 @@
   #
   # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
   environment.systemPackages = with pkgs; [
-    neovim
+    # neovim
     git
     just # use Justfile to simplify nix-darwin's commands
+    vscode
   ];
   environment.variables.EDITOR = "nvim";
 
@@ -45,7 +46,7 @@
     masApps = {
       # TODO Feel free to add your favorite apps here.
 
-      Xcode = 497799835;
+      # Xcode = 497799835;
       # Wechat = 836500024;
       # QQ = 451108668;
     };
@@ -55,31 +56,31 @@
     # `brew install`
     # TODO Feel free to add your favorite apps here.
     brews = [
-      "wget" # download tool
-      "curl" # no not install curl via nixpkgs, it's not working well on macOS!
-      "aria2" # download tool
-      "httpie" # http client
+      # "wget" # download tool
+      # "curl" # no not install curl via nixpkgs, it's not working well on macOS!
+      # "aria2" # download tool
+      # "httpie" # http client
     ];
 
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
     casks = [
-      "firefox"
-      "google-chrome"
-      "visual-studio-code"
+      # "firefox"
+      # "google-chrome"
+      # "visual-studio-code"
 
-      # IM & audio & remote desktop & meeting
-      "telegram"
-      "discord"
+      # # IM & audio & remote desktop & meeting
+      # "telegram"
+      # "discord"
 
-      "anki"
-      "iina" # video player
-      "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
-      "stats" # beautiful system monitor
+      # "anki"
+      # "iina" # video player
+      # "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
+      # "stats" # beautiful system monitor
 
-      # Development
-      "insomnia" # REST client
-      "wireshark-app" # network analyzer
+      # # Development
+      # "insomnia" # REST client
+      # "wireshark-app" # network analyzer
     ];
   };
 }

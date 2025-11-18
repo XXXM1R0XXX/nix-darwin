@@ -15,7 +15,7 @@
   security.pam.services.sudo_local.touchIdAuth = true;
 
   # Set your time zone.
-  time.timeZone = "Asia/shanghai";
+  time.timeZone = "Europe/Moscow";
 
   system = {
     stateVersion = 6;

@@ -12,7 +12,7 @@
     rm -f ~/.gitconfig
   '';
 
-  programs.git = {
+  programs.git.settings = {
     enable = true;
     lfs.enable = true;
 

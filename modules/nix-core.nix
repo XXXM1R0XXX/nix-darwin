@@ -24,7 +24,7 @@
 
       # substituers that will be considered before the official ones(https://cache.nixos.org)
       substituters = [
-        "https://mirror.sjtu.edu.cn/nix-channels/store"
+        # "https://mirror.sjtu.edu.cn/nix-channels/store"
         "https://nix-community.cachix.org"
       ];
       trusted-public-keys = [

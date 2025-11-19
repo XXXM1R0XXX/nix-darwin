@@ -67,7 +67,7 @@
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
     casks = [
-      tailscale-app
+      "tailscale-app"
       # "firefox"
       # "google-chrome"
       # "visual-studio-code"

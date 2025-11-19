@@ -52,6 +52,13 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+
+    comic-code = {
+      # Используйте git+ssh:// для приватных репозиториев
+      url = "git+ssh://git@github.com/XXXM1R0XXX/comic-code";
+      # Исправлено: nixos-unstable -> nixpkgs-darwin
+      inputs.nixpkgs.follows = "nixpkgs-darwin"; 
+    };
   };
 
   # The `outputs` function will return all the build results of the flake.
@@ -68,6 +75,7 @@
     homebrew-bundle, 
     homebrew-core, 
     homebrew-cask,
+    comic-code,
     ...
   }: let
     # TODO replace with your own username, email, system, and hostname
@@ -80,6 +88,7 @@
       inputs
       // {
         inherit username useremail hostname;
+        inherit comic-code;
       };
   in {
     darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {

@@ -17,6 +17,26 @@
         "type": "github"
       }
     },
+    "comic-code": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-darwin"
+        ]
+      },
+      "locked": {
+        "lastModified": 1757923716,
+        "narHash": "sha256-YgOFlvywTlaS2lHq41gcRamz1q/Vsb6BAt6i8cokeAw=",
+        "ref": "refs/heads/main",
+        "rev": "41067d72a478e035a123d3906107cb699707c730",
+        "revCount": 7,
+        "type": "git",
+        "url": "ssh://git@github.com/XXXM1R0XXX/comic-code"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/XXXM1R0XXX/comic-code"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -155,6 +175,7 @@
     },
     "root": {
       "inputs": {
+        "comic-code": "comic-code",
         "darwin": "darwin",
         "home-manager": "home-manager",
         "homebrew-bundle": "homebrew-bundle",

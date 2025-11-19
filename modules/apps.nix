@@ -22,6 +22,8 @@
     git
     just # use Justfile to simplify nix-darwin's commands
     vscode
+    ice-bar
+    raycast
   ];
   environment.variables.EDITOR = "nvim";
 
@@ -65,6 +67,7 @@
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
     casks = [
+      tailscale-app
       # "firefox"
       # "google-chrome"
       # "visual-studio-code"

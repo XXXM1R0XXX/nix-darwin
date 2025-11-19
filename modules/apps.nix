@@ -24,6 +24,9 @@
     vscode
     ice-bar
     raycast
+    telegram-desktop
+    iina
+    stats
   ];
   environment.variables.EDITOR = "nvim";
 
@@ -53,7 +56,11 @@
       # QQ = 451108668;
     };
 
-    # taps = [];
+    taps = [
+      "homebrew/bundle"
+      "homebrew/cask"
+      #   "homebrew/services"
+    ];
 
     # `brew install`
     # TODO Feel free to add your favorite apps here.
@@ -68,6 +75,8 @@
     # TODO Feel free to add your favorite apps here.
     casks = [
       "tailscale-app"
+      "ghostty"
+      "arc"
       # "firefox"
       # "google-chrome"
       # "visual-studio-code"

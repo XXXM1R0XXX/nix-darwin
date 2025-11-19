@@ -27,6 +27,7 @@
     telegram-desktop
     iina
     stats
+    orbstack
   ];
   environment.variables.EDITOR = "nvim";
 

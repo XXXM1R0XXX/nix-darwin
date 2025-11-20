@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    alejandra
     # archives
     # zip
     # xz
@@ -77,13 +78,17 @@
       enable = true;
       enableBashIntegration = true;
     };
+
+    btop = {
+      enable = true;
+    };
   };
 
   catppuccin = {
     enable = true;
     flavor = "mocha";
     accent = "mauve"; # Глобальный акцент (blue, flamingo, green, lavender, maroon, mauve, peach, pink, red, rosewater, sapphire, sky, teal, yellow)
-    
+
     # Настройки конкретно для VS Code (если нужно переопределить глобальные)
     # vscode.profiles.default.enable = true;
   };

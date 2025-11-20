@@ -56,7 +56,7 @@
     comic-code = {
       # My custom font flake
       url = "git+ssh://git@github.com/XXXM1R0XXX/comic-code";
-      inputs.nixpkgs.follows = "nixpkgs-darwin"; 
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
     catppuccin.url = "github:catppuccin/nix";
@@ -72,9 +72,9 @@
     nixpkgs,
     darwin,
     home-manager,
-    nix-homebrew, 
-    homebrew-bundle, 
-    homebrew-core, 
+    nix-homebrew,
+    homebrew-bundle,
+    homebrew-core,
     homebrew-cask,
     comic-code,
     catppuccin,
@@ -117,8 +117,8 @@
           };
         }
 
-	# homebrew
-	nix-homebrew.darwinModules.nix-homebrew
+        # homebrew
+        nix-homebrew.darwinModules.nix-homebrew
         {
           nix-homebrew = {
             user = username;

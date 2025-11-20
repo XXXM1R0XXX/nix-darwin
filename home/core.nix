@@ -91,5 +91,7 @@
 
     # Настройки конкретно для VS Code (если нужно переопределить глобальные)
     # vscode.profiles.default.enable = true;
+    
+    starship.enable = false;
   };
 }

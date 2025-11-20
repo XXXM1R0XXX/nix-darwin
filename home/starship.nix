@@ -7,6 +7,7 @@
     enableFishIntegration = true;
     enableNushellIntegration = true;
 
+    settings = builtins.fromTOML (builtins.readFile ./starship.toml);
     #   settings = {
     #     character = {
     #       success_symbol = "[›](bold green)";

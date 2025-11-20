@@ -54,11 +54,12 @@
     };
 
     comic-code = {
-      # Используйте git+ssh:// для приватных репозиториев
+      # My custom font flake
       url = "git+ssh://git@github.com/XXXM1R0XXX/comic-code";
-      # Исправлено: nixos-unstable -> nixpkgs-darwin
       inputs.nixpkgs.follows = "nixpkgs-darwin"; 
     };
+
+    catppuccin.url = "github:catppuccin/nix";
   };
 
   # The `outputs` function will return all the build results of the flake.
@@ -76,6 +77,7 @@
     homebrew-core, 
     homebrew-cask,
     comic-code,
+    catppuccin,
     ...
   }: let
     # TODO replace with your own username, email, system, and hostname
@@ -99,13 +101,20 @@
         ./modules/apps.nix
         ./modules/host-users.nix
 
+        # catppuccin.darwinModules.catppuccin
+
         # home manager
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = specialArgs;
-          home-manager.users.${username} = import ./home;
+          home-manager.users.${username} = {
+            imports = [
+              ./home
+              catppuccin.homeModules.catppuccin
+            ];
+          };
         }
 
 	# homebrew

@@ -55,11 +55,11 @@
   };
 
   # Delta теперь настраивается отдельно, вне programs.git
-  programs.delta = {
-    enable = true;
-    enableGitIntegration = true;
-    options = {
-      features = "side-by-side";
-    };
-  };
+  # programs.delta = {
+  #   enable = true;
+  #   enableGitIntegration = true;
+  #   options = {
+  #     features = lib.mkForce "side-by-side catppuccin-mocha";
+  #   };
+  # };
 }

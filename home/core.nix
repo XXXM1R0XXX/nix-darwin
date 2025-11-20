@@ -49,6 +49,16 @@
       enableZshIntegration = true;
     };
 
+    # vscode = {
+    #   enable = true;
+    #   profiles.default.userSettingsuserSettings = {
+    #     "editor.fontFamily" = "'Comic Code', Menlo, Monaco, 'Courier New', monospace";
+    #     "editor.formatOnSave" = "true";
+    #     "editor.formatOnSaveMode" = "file";
+    #     "files.autoSave" = "afterDelay";
+    #   };
+    # };
+
     # terminal file manager
     yazi = {
       enable = true;
@@ -67,5 +77,14 @@
       enable = true;
       enableBashIntegration = true;
     };
+  };
+
+  catppuccin = {
+    enable = true;
+    flavor = "mocha";
+    accent = "mauve"; # Глобальный акцент (blue, flamingo, green, lavender, maroon, mauve, peach, pink, red, rosewater, sapphire, sky, teal, yellow)
+    
+    # Настройки конкретно для VS Code (если нужно переопределить глобальные)
+    # vscode.profiles.default.enable = true;
   };
 }

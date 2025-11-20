@@ -21,7 +21,7 @@
     # neovim
     git
     just # use Justfile to simplify nix-darwin's commands
-    vscode
+    vscode # managed by home-manager
     ice-bar
     raycast
     telegram-desktop

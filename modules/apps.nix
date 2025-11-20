@@ -22,7 +22,7 @@
     just # use Justfile to simplify nix-darwin's commands
     vscode # managed by home-manager
     ice-bar
-    raycast
+    # raycast
     telegram-desktop
     iina
     stats
@@ -77,22 +77,6 @@
       "tailscale-app"
       "ghostty"
       "arc"
-      # "firefox"
-      # "google-chrome"
-      # "visual-studio-code"
-
-      # # IM & audio & remote desktop & meeting
-      # "telegram"
-      # "discord"
-
-      # "anki"
-      # "iina" # video player
-      # "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
-      # "stats" # beautiful system monitor
-
-      # # Development
-      # "insomnia" # REST client
-      # "wireshark-app" # network analyzer
     ];
   };
 }

@@ -178,9 +178,9 @@
 
       # nerdfonts
       # https://github.com/NixOS/nixpkgs/blob/nixos-unstable-small/pkgs/data/fonts/nerd-fonts/manifests/fonts.json
-      # nerd-fonts.symbols-only # symbols icon only
+      nerd-fonts.symbols-only # symbols icon only
       # nerd-fonts.fira-code
-      nerd-fonts.jetbrains-mono
+      # nerd-fonts.jetbrains-mono
       # nerd-fonts.iosevka
       comic-code.packages.aarch64-darwin.font
     ];

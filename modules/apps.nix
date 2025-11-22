@@ -27,6 +27,7 @@
     iina
     stats
     orbstack
+    obsidian
   ];
   environment.variables.EDITOR = "nvim";
 

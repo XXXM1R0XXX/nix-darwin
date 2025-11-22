@@ -28,6 +28,7 @@
     stats
     orbstack
     obsidian
+    fastfetch
   ];
   environment.variables.EDITOR = "nvim";
 

@@ -2,10 +2,10 @@
   programs.starship = {
     enable = true;
 
-    enableBashIntegration = true;
-    enableZshIntegration = true;
+    # enableBashIntegration = true;
+    # enableZshIntegration = true;
     enableFishIntegration = true;
-    enableNushellIntegration = true;
+    # enableNushellIntegration = true;
 
     settings = builtins.fromTOML (builtins.readFile ./starship.toml);
   };

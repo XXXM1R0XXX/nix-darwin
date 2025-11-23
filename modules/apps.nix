@@ -79,6 +79,7 @@
       "tailscale-app"
       "ghostty"
       "arc"
+      "logi-options+"
     ];
   };
 }

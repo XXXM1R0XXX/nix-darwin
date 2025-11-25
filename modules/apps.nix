@@ -29,6 +29,7 @@
     orbstack
     obsidian
     fastfetch
+    # blender-hip
   ];
   environment.variables.EDITOR = "nvim";
 
@@ -80,6 +81,7 @@
       "ghostty"
       "arc"
       "logi-options+"
+      "blender"
     ];
   };
 }

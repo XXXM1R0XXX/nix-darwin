@@ -82,6 +82,7 @@
       "arc"
       "logi-options+"
       "blender"
+      "motrix"
     ];
   };
 }

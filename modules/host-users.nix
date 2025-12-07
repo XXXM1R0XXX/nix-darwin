@@ -19,6 +19,7 @@
     home = "/Users/${username}";
     description = username;
     shell = pkgs.fish;
+    uid = 501;
   };
   system.primaryUser = username;
 

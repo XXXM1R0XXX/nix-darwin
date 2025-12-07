@@ -83,6 +83,7 @@
       "logi-options+"
       "blender"
       "motrix"
+      "capcut"
     ];
   };
 }

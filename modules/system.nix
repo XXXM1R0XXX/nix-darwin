@@ -17,7 +17,8 @@
   # Add ability to used TouchID for sudo authentication
   security.pam.services.sudo_local.touchIdAuth = true;
 
-  # Set your time zone.
+  # TODO: Change this to your local timezone
+  # Find your timezone: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time.timeZone = "Europe/Moscow";
 
   system = {
@@ -182,6 +183,7 @@
       # nerd-fonts.fira-code
       # nerd-fonts.jetbrains-mono
       # nerd-fonts.iosevka
+      # TODO: Remove or replace this with your preferred font (comic-code is a private repository)
       comic-code.packages.aarch64-darwin.font
     ];
   };

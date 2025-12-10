@@ -1,6 +1,6 @@
 # just is a command runner, Justfile is very similar to Makefile, but simpler.
 
-# TODO update hostname here!
+# TODO: Change this to match the hostname in flake.nix
 hostname := "nihilist"
 
 # List all the just commands

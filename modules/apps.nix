@@ -29,7 +29,7 @@
     orbstack
     obsidian
     fastfetch
-    # blender-hip
+    tex-fmt # A simple and fast LaTeX formatter
   ];
   environment.variables.EDITOR = "nvim";
 
@@ -83,7 +83,8 @@
       "logi-options+"
       "blender"
       "motrix"
-      "capcut"
+      # "capcut"
+      "mactex-no-gui"
     ];
   };
 }

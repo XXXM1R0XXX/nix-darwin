@@ -6,10 +6,10 @@ Before building this configuration, please complete the following steps:
 
 ### User Configuration (`flake.nix`)
 
-- [ ] Change `username` to your macOS username (line ~84)
-- [ ] Change `useremail` to your email address (line ~85)
-- [ ] Change `hostname` to your desired computer name (line ~87)
-- [ ] Change `system` if you're using Intel Mac (`x86_64-darwin`) instead of Apple Silicon (`aarch64-darwin`) (line ~86)
+- [ ] Change `username` to your macOS username (line ~85)
+- [ ] Change `useremail` to your email address (line ~86)
+- [ ] Change `hostname` to your desired computer name (line ~88)
+- [ ] Change `system` if you're using Intel Mac (`x86_64-darwin`) instead of Apple Silicon (`aarch64-darwin`) (line ~87)
 
 ### Hostname (`Justfile`)
 
@@ -17,17 +17,17 @@ Before building this configuration, please complete the following steps:
 
 ### Time Zone (`modules/system.nix`)
 
-- [ ] Change `time.timeZone` to your local timezone (line ~21)
+- [ ] Change `time.timeZone` to your local timezone (line ~22)
 
 ### SSH Keys (`home/ssh.nix`)
 
-- [ ] Update `identityFile` path if your SSH key has a different name (line ~11)
+- [ ] Update `identityFile` path if your SSH key has a different name (line ~12)
 - [ ] Generate SSH keys if you haven't already: `ssh-keygen -t ed25519 -C "your_email@example.com"`
 
 ### Custom Font (Optional)
 
-- [ ] Remove or replace the `comic-code` input in `flake.nix` if you don't have access to this private repository (lines ~56-60)
-- [ ] Update the font configuration in `modules/system.nix` (line ~185)
+- [ ] Remove or replace the `comic-code` input in `flake.nix` if you don't have access to this private repository (lines ~56-61)
+- [ ] Update the font configuration in `modules/system.nix` (line ~187)
 
 ## Optional Customizations
 

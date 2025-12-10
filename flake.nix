@@ -53,6 +53,7 @@
       flake = false;
     };
 
+    # TODO: Remove or replace this with your own font flake (this is a private repository)
     comic-code = {
       # My custom font flake
       url = "git+ssh://git@github.com/XXXM1R0XXX/comic-code";
@@ -80,11 +81,11 @@
     catppuccin,
     ...
   }: let
-    # TODO replace with your own username, email, system, and hostname
-    username = "m1r0";
-    useremail = "kristianbogdan8519@gmail.com";
-    system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
-    hostname = "nihilist";
+    # TODO: Replace with your own username, email, system, and hostname
+    username = "m1r0"; # TODO: Change this to your macOS username
+    useremail = "kristianbogdan8519@gmail.com"; # TODO: Change this to your email
+    system = "aarch64-darwin"; # TODO: Use "x86_64-darwin" for Intel Macs
+    hostname = "nihilist"; # TODO: Change this to your desired hostname
 
     specialArgs =
       inputs

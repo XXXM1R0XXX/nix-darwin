@@ -5,12 +5,13 @@
     
     matchBlocks = {
       "*" = {
-        # Автоматически добавлять ключи в агент
+        # Automatically add keys to agent
         addKeysToAgent = "yes";
-        # Укажите путь к вашему ключу
+        # TODO: Update this path if your SSH key has a different name
+        # Generate a new key with: ssh-keygen -t ed25519 -C "your_email@example.com"
         identityFile = "~/.ssh/id_ed25519";
         
-        # Специфичная опция для macOS, чтобы сохранять пароль в Keychain
+        # macOS-specific option to save passphrase in Keychain
         extraOptions = {
           UseKeychain = "yes";
         };

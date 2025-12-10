@@ -31,6 +31,7 @@
       dock = {
         autohide = true;
         show-recents = false; # disable recent apps
+        mineffect = "genie";
 
         # customize Hot Corners(触发角, 鼠标移动到屏幕角落时触发的动作)
         wvous-tl-corner = 2; # top-left - Mission Control
@@ -42,6 +43,7 @@
       # customize finder
       finder = {
         _FXShowPosixPathInTitle = true; # show full path in finder title
+        AppleShowAllFiles = true; # show hidden files
         AppleShowAllExtensions = true; # show all file extensions
         FXEnableExtensionChangeWarning = false; # disable warning when changing file extension
         QuitMenuItem = true; # enable quit menu item

@@ -30,6 +30,7 @@
     obsidian
     fastfetch
     tex-fmt # A simple and fast LaTeX formatter
+    opencode # A fast open source code editor
   ];
   environment.variables.EDITOR = "nvim";
 

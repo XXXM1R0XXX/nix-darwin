@@ -24,6 +24,8 @@
   system = {
     stateVersion = 6;
 
+    startup.chime = false;
+
     defaults = {
       # menuExtraClock.Show24Hour = true;  # show 24 hour clock
 

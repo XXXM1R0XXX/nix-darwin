@@ -88,6 +88,8 @@
       "motrix"
       # "capcut"
       "mactex-no-gui"
+      "jan"
+      "ollama"
     ];
   };
 }

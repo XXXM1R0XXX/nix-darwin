@@ -64,6 +64,7 @@
       "homebrew/bundle"
       "homebrew/cask"
       "tw93/tap"
+      "humansignal/tap"
       #   "homebrew/services"
     ];
 
@@ -74,6 +75,7 @@
       # "curl" # no not install curl via nixpkgs, it's not working well on macOS!
       # "aria2" # download tool
       # "httpie" # http client
+      "humansignal/tap/label-studio"
       "tw93/tap/mole"
     ];
 
@@ -89,7 +91,8 @@
       # "capcut"
       "mactex-no-gui"
       "jan"
-      "ollama"
+      "ollama-app"
+      "tor-browser"
     ];
   };
 }

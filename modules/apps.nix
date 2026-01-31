@@ -23,7 +23,7 @@
     vscode # managed by home-manager
     ice-bar
     # raycast
-    telegram-desktop
+    # telegram-desktop
     iina
     stats
     orbstack
@@ -93,6 +93,8 @@
       "jan"
       "ollama-app"
       "tor-browser"
+      "balenaetcher"
+      "telegram-desktop"
     ];
   };
 }

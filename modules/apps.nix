@@ -95,6 +95,7 @@
       "tor-browser"
       "balenaetcher"
       "telegram-desktop"
+      "figma"
     ];
   };
 }

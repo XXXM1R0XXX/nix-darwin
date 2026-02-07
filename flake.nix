@@ -124,11 +124,11 @@
           nix-homebrew = {
             user = username;
             enable = true;
-            taps = {
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-              "homebrew/homebrew-bundle" = homebrew-bundle;
-            };
+            # taps = {
+            #   "homebrew/homebrew-core" = homebrew-core;
+            #   "homebrew/homebrew-cask" = homebrew-cask;
+            #   "homebrew/homebrew-bundle" = homebrew-bundle;
+            # };
             mutableTaps = true;
             autoMigrate = true;
           };

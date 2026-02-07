@@ -31,6 +31,7 @@
     fastfetch
     tex-fmt # A simple and fast LaTeX formatter
     opencode # A fast open source code editor
+    # anki
   ];
   environment.variables.EDITOR = "nvim";
 
@@ -96,6 +97,7 @@
       "balenaetcher"
       "telegram-desktop"
       "figma"
+      "anki"
     ];
   };
 }

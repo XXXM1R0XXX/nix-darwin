@@ -62,8 +62,8 @@
     };
 
     taps = [
-      "homebrew/bundle"
-      "homebrew/cask"
+      # "homebrew/bundle"
+      # "homebrew/cask"
       "tw93/tap"
       "humansignal/tap"
       #   "homebrew/services"

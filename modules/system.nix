@@ -141,6 +141,10 @@
         };
         # Prevent Photos from opening automatically when devices are plugged in
         "com.apple.ImageCapture".disableHotPlug = true;
+        # Disable Quick Note (Globe+Q shortcut)
+        "com.apple.dock" = {
+          wvous-show-quick-note = false;
+        };
       };
 
       loginwindow = {

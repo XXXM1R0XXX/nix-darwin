@@ -20,12 +20,9 @@
     # neovim
     git
     just # use Justfile to simplify nix-darwin's commands
-    vscode # managed by home-manager
     ice-bar
     # raycast
-    # telegram-desktop
     iina
-    stats
     orbstack
     obsidian
     fastfetch
@@ -98,6 +95,8 @@
       "telegram-desktop"
       "figma"
       "anki"
+      "stats"
+      "visual-studio-code"
     ];
   };
 }

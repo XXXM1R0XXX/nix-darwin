@@ -17,6 +17,7 @@
   #
   # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
   environment.systemPackages = with pkgs; [
+    nodejs
     # neovim
     git
     just # use Justfile to simplify nix-darwin's commands
@@ -28,6 +29,7 @@
     fastfetch
     tex-fmt # A simple and fast LaTeX formatter
     opencode # A fast open source code editor
+    zellij
     # anki
   ];
   environment.variables.EDITOR = "nvim";

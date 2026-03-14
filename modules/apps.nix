@@ -77,6 +77,7 @@
       # "httpie" # http client
       "humansignal/tap/label-studio"
       "tw93/tap/mole"
+      "nikitabobko/tap/aerospace"
     ];
 
     # `brew install --cask`
@@ -99,6 +100,8 @@
       "anki"
       "stats"
       "visual-studio-code"
+      "zed"
+      "zwift"
     ];
   };
 }

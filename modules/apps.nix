@@ -30,7 +30,6 @@
     tex-fmt # A simple and fast LaTeX formatter
     opencode # A fast open source code editor
     zellij
-    # anki
   ];
   environment.variables.EDITOR = "nvim";
 
@@ -65,6 +64,7 @@
       # "homebrew/cask"
       "tw93/tap"
       "humansignal/tap"
+      "nikitabobko/tap"
       #   "homebrew/services"
     ];
 
@@ -77,12 +77,12 @@
       # "httpie" # http client
       "humansignal/tap/label-studio"
       "tw93/tap/mole"
-      "nikitabobko/tap/aerospace"
     ];
 
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
     casks = [
+      "aerospace"
       "tailscale-app"
       "ghostty"
       "arc"
@@ -102,6 +102,7 @@
       "visual-studio-code"
       "zed"
       "zwift"
+      "antigravity-tools"
     ];
   };
 }

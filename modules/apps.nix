@@ -42,7 +42,7 @@
 
     onActivation = {
       autoUpdate = true; # Fetch the newest stable branch of Homebrew's git repo
-      upgrade = true; # Upgrade outdated casks, formulae, and App Store apps
+      upgrade = false; # Upgrade outdated casks, formulae, and App Store apps
       # 'zap': uninstalls all formulae(and related files) not listed in the generated Brewfile
       cleanup = "zap";
     };
@@ -65,6 +65,7 @@
       "tw93/tap"
       "humansignal/tap"
       "nikitabobko/tap"
+      "lbjlaq/antigravity-manager"
       #   "homebrew/services"
     ];
 

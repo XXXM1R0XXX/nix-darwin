@@ -42,13 +42,13 @@ darwin-debug:
 # Update all the flake inputs
 [group('nix')]
 up:
-  nix flake update
+  nix flake update --refresh
 
 # Update specific input
-# Usage: just upp nixpkgs
+# Usage: just upp nixpkgs-darwin
 [group('nix')]
 upp input:
-  nix flake update {{input}}
+  nix flake update --refresh {{input}}
 
 # List all generations of the system profile
 [group('nix')]

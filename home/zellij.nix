@@ -3,7 +3,7 @@
   zjstatus,
   ...
 }: let
-  zjstatusPkg = zjstatus.packages.${pkgs.system}.default;
+  zjstatusPkg = zjstatus.packages.${pkgs.stdenv.hostPlatform.system}.default;
   zjstatusWasm = "file:${zjstatusPkg}/bin/zjstatus.wasm";
 in {
   xdg.configFile."zellij/config.kdl".text = ''

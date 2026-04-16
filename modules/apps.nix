@@ -28,7 +28,6 @@
     obsidian
     fastfetch
     tex-fmt # A simple and fast LaTeX formatter
-    zellij
   ];
   environment.variables.EDITOR = "nvim";
 

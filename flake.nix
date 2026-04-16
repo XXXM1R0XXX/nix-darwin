@@ -116,15 +116,6 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = specialArgs;
-          home-manager.sharedModules = [
-            {
-              nixpkgs.overlays = [
-                (final: prev: {
-                  zjstatus = zjstatus.packages.${system}.default;
-                })
-              ];
-            }
-          ];
           home-manager.users.${username} = {
             imports = [
               ./home

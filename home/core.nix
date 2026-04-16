@@ -35,11 +35,11 @@
 
   programs = {
     # modern vim
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      vimAlias = true;
-    };
+    # neovim = {
+    #   enable = true;
+    #   defaultEditor = true;
+    #   vimAlias = true;
+    # };
 
     # vscode = {
     #   enable = true;
@@ -55,6 +55,7 @@
     yazi = {
       enable = true;
       enableZshIntegration = true;
+      shellWrapperName = "y";
       settings = {
         manager = {
           show_hidden = true;
@@ -73,6 +74,11 @@
     btop = {
       enable = true;
     };
+
+    # terminal multiplexer
+    zellij = {
+      enable = true;
+    };
   };
 
   catppuccin = {
@@ -82,7 +88,8 @@
 
     # Настройки конкретно для VS Code (если нужно переопределить глобальные)
     # vscode.profiles.default.enable = true;
-    
+
     starship.enable = false;
+    zellij.enable = false;
   };
 }

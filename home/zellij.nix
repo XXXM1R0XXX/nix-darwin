@@ -47,7 +47,7 @@ in {
 
             format_left   "#[fg=$sapphire] #[bg=$sapphire,fg=$crust,bold] #[bg=$surface1,fg=$text,bold] {session} #[fg=$surface1] {mode} {tabs}"
             format_center "{notifications}"
-            format_right  "#[fg=$flamingo]#[bg=$flamingo,fg=$crust] #[bg=$surface1,fg=$text,bold] {command_user}@{command_host} #[fg=$surface1] #[fg=$maroon]#[bg=$maroon,fg=$crust]󰃭 #[bg=$surface1,fg=$text,bold] {datetime} #[fg=$surface1]"
+            format_right  "#[fg=$teal]#[bg=$teal,fg=$crust] #[bg=$surface1,fg=$text,bold] {command_pwd} #[fg=$surface1] #[fg=$blue]#[bg=$blue,fg=$crust] #[bg=$surface1,fg=$text,bold] {command_git_branch} #[fg=$surface1] #[fg=$maroon]#[bg=$maroon,fg=$crust]󰃭 #[bg=$surface1,fg=$text,bold] {datetime} #[fg=$surface1]"
             format_space  ""
             format_hide_on_overlength "true"
             format_precedence "lrc"
@@ -99,6 +99,16 @@ in {
             command_user_format     "{stdout}"
             command_user_interval   "10"
             command_user_rendermode "static"
+
+            command_pwd_command     "bash -c 'basename $PWD'"
+            command_pwd_format      "{stdout}"
+            command_pwd_interval    "1"
+            command_pwd_rendermode  "static"
+
+            command_git_branch_command     "bash -c 'git rev-parse --abbrev-ref HEAD 2>/dev/null || echo -'"
+            command_git_branch_format      "{stdout}"
+            command_git_branch_interval    "10"
+            command_git_branch_rendermode  "static"
 
             datetime          "{format}"
             datetime_format   "%Y-%m-%d 󰅐 %H:%M"

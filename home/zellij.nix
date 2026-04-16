@@ -11,6 +11,7 @@ in {
 
     pane_frames false
     theme "catppuccin-mocha"
+    show_tips false
   '';
 
   xdg.configFile."zellij/layouts/terminal.kdl".text = ''

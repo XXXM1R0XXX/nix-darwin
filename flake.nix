@@ -61,6 +61,11 @@
     };
 
     catppuccin.url = "github:catppuccin/nix";
+
+    zjstatus = {
+      url = "github:dj95/zjstatus";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
   };
 
   # The `outputs` function will return all the build results of the flake.
@@ -79,6 +84,7 @@
     homebrew-cask,
     comic-code,
     catppuccin,
+    zjstatus,
     ...
   }: let
     # TODO: Replace with your own username, email, system, and hostname
@@ -91,7 +97,7 @@
       inputs
       // {
         inherit username useremail hostname;
-        inherit comic-code;
+        inherit comic-code zjstatus;
       };
   in {
     darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
@@ -110,6 +116,15 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = specialArgs;
+          home-manager.sharedModules = [
+            {
+              nixpkgs.overlays = [
+                (final: prev: {
+                  zjstatus = zjstatus.packages.${system}.default;
+                })
+              ];
+            }
+          ];
           home-manager.users.${username} = {
             imports = [
               ./home

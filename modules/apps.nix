@@ -17,7 +17,7 @@
   #
   # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
   environment.systemPackages = with pkgs; [
-    nodejs
+    bun
     # neovim
     git
     just # use Justfile to simplify nix-darwin's commands
@@ -28,7 +28,6 @@
     obsidian
     fastfetch
     tex-fmt # A simple and fast LaTeX formatter
-    opencode # A fast open source code editor
     zellij
   ];
   environment.variables.EDITOR = "nvim";
@@ -66,6 +65,7 @@
       "humansignal/tap"
       "nikitabobko/tap"
       "lbjlaq/antigravity-manager"
+      "anomalyco/tap"
       #   "homebrew/services"
     ];
 
@@ -78,6 +78,7 @@
       # "httpie" # http client
       "humansignal/tap/label-studio"
       "tw93/tap/mole"
+      "anomalyco/tap/opencode"
     ];
 
     # `brew install --cask`
@@ -104,6 +105,7 @@
       "zed"
       "zwift"
       "antigravity-tools"
+      "bruno"
     ];
   };
 }

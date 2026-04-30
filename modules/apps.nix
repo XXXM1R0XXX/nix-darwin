@@ -60,6 +60,7 @@
     taps = [
       # "homebrew/bundle"
       # "homebrew/cask"
+      "homebrew/cask-versions"
       "tw93/tap"
       "humansignal/tap"
       "nikitabobko/tap"
@@ -78,6 +79,7 @@
       "humansignal/tap/label-studio"
       "tw93/tap/mole"
       "anomalyco/tap/opencode"
+      "hf"
     ];
 
     # `brew install --cask`
@@ -101,10 +103,11 @@
       "anki"
       "stats"
       "visual-studio-code"
-      "zed"
+      "zed@preview"
       "zwift"
       "antigravity-tools"
       "bruno"
+      "donut"
     ];
   };
 }

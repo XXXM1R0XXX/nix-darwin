@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "last_run": "2026-05-06T01:44:49.891Z",
+    "root": "/Users/m1r0/nix-darwin",
+    "include_patterns": [
+      "**/*.nix",
+      "flake.lock",
+      "Justfile"
+    ],
+    "exclude_patterns": [
+      "**/*.md"
+    ],
+    "exceptions": []
+  },
+  "file_hashes": {
+    "Justfile": "981f98fc6e2c8fc6102604efac8fb761",
+    "flake.lock": "5629ced98f4362ef0891e854414bc27c",
+    "flake.nix": "87674c7d6f9eb9c26ebf49759b62598e",
+    "home/core.nix": "f4616525ef1e9fa46884f5192236a7d2",
+    "home/default.nix": "58c5d8c2cd69580394d234b36a115a04",
+    "home/git.nix": "8e9c95f850ed64a554b744c8d6e7f7ba",
+    "home/shell.nix": "9aa0c4348fbb8ed509c18546fab1dd4a",
+    "home/ssh.nix": "b5479481ba16a037840987f8401db300",
+    "home/starship.nix": "5d287345093e819f8867660e68bd83e7",
+    "modules/apps.nix": "7d31f5b6ae62992c31f17aefe937ea35",
+    "modules/host-users.nix": "c43a8664e7e439c981abe8d5e2b56204",
+    "modules/nix-core.nix": "69d27ebac8b369b325d6650a3cf89313",
+    "modules/system.nix": "ee95c832517e55eed4b4f78ceeeacddf"
+  },
+  "folder_hashes": {
+    ".": "cf2fb264126da5e43e68d5216001edab",
+    "home": "9cd9ce62b1b9ef1f5078d7a79fd045e8",
+    "modules": "000b4246a7f64649fdf2147f1872227c"
+  }
+}

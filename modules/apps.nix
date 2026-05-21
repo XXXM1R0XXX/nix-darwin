@@ -60,7 +60,6 @@
     taps = [
       # "homebrew/bundle"
       # "homebrew/cask"
-      "homebrew/cask-versions"
       "tw93/tap"
       "humansignal/tap"
       "nikitabobko/tap"
@@ -108,6 +107,7 @@
       "antigravity-tools"
       "bruno"
       "donut"
+      "handy"
     ];
   };
 }

@@ -23,7 +23,7 @@
     just # use Justfile to simplify nix-darwin's commands
     ice-bar
     # raycast
-    iina
+    # iina
     orbstack
     obsidian
     fastfetch
@@ -108,6 +108,7 @@
       "bruno"
       "donut"
       "handy"
+      "iina"
     ];
   };
 }

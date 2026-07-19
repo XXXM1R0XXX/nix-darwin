@@ -63,7 +63,6 @@
       "tw93/tap"
       "humansignal/tap"
       "nikitabobko/tap"
-      "lbjlaq/antigravity-manager"
       "anomalyco/tap"
       #   "homebrew/services"
     ];
@@ -78,7 +77,10 @@
       "humansignal/tap/label-studio"
       "tw93/tap/mole"
       "anomalyco/tap/opencode"
+      "gh"
+      "herdr"
       "hf"
+      "rclone"
     ];
 
     # `brew install --cask`
@@ -104,8 +106,8 @@
       "visual-studio-code"
       "zed@preview"
       "zwift"
-      "antigravity-tools"
       "bruno"
+      "dbx"
       "donut"
       "handy"
       "iina"

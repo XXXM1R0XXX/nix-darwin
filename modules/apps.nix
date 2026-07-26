@@ -111,6 +111,7 @@
       "donut"
       "handy"
       "iina"
+      "zen"
     ];
   };
 }

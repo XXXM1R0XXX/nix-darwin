@@ -29,7 +29,10 @@
     fastfetch
     tex-fmt # A simple and fast LaTeX formatter
   ];
-  environment.variables.EDITOR = "nvim";
+  environment.variables = {
+    EDITOR = "zed --wait";
+    VISUAL = "zed --wait";
+  };
 
   # TODO To make this work, homebrew need to be installed manually, see https://brew.sh
   #
@@ -104,7 +107,7 @@
       "anki"
       "stats"
       "visual-studio-code"
-      "zed@preview"
+      "zed"
       "zwift"
       "bruno"
       "dbx"

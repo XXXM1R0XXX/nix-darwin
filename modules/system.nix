@@ -1,6 +1,7 @@
 {
   pkgs,
   comic-code,
+  username,
   ...
 }:
 ###################################################################################
@@ -133,7 +134,7 @@
           askForPasswordDelay = 0;
         };
         "com.apple.screencapture" = {
-          location = "~/Desktop";
+          location = "/Users/${username}/Desktop";
           type = "png";
         };
         "com.apple.AdLib" = {
@@ -192,7 +193,7 @@
       # nerd-fonts.jetbrains-mono
       # nerd-fonts.iosevka
       # TODO: Remove or replace this with your preferred font (comic-code is a private repository)
-      comic-code.packages.aarch64-darwin.font
+      comic-code.packages.${pkgs.stdenv.hostPlatform.system}.font
     ];
   };
 }

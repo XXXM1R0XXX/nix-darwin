@@ -40,18 +40,19 @@
     nix-homebrew = {
       url = "github:zhaofengli-wip/nix-homebrew";
     };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
+    # These inputs are only needed for immutable, declaratively pinned taps.
+    # homebrew-bundle = {
+    #   url = "github:homebrew/homebrew-bundle";
+    #   flake = false;
+    # };
+    # homebrew-core = {
+    #   url = "github:homebrew/homebrew-core";
+    #   flake = false;
+    # };
+    # homebrew-cask = {
+    #   url = "github:homebrew/homebrew-cask";
+    #   flake = false;
+    # };
 
     # TODO: Remove or replace this with your own font flake (this is a private repository)
     comic-code = {
@@ -79,9 +80,9 @@
     darwin,
     home-manager,
     nix-homebrew,
-    homebrew-bundle,
-    homebrew-core,
-    homebrew-cask,
+    # homebrew-bundle,
+    # homebrew-core,
+    # homebrew-cask,
     comic-code,
     catppuccin,
     zjstatus,

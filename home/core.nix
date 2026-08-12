@@ -55,7 +55,6 @@
     # terminal file manager
     yazi = {
       enable = true;
-      enableZshIntegration = true;
       shellWrapperName = "y";
       settings = {
         manager = {
@@ -69,7 +68,6 @@
     # Basically anywhere you would want to use grep, try sk instead.
     skim = {
       enable = true;
-      enableBashIntegration = true;
     };
 
     btop = {

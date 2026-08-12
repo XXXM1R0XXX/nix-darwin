@@ -86,7 +86,7 @@
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
     casks = [
-      "aerospace"
+      "nikitabobko/tap/aerospace"
       "tailscale-app"
       "ghostty"
       "arc"
@@ -112,6 +112,9 @@
       "handy"
       "iina"
       "zen"
+      "spotify"
+      "chatgpt"
+      "firefox"
     ];
   };
 }

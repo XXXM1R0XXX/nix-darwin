@@ -28,6 +28,7 @@
     # zstd
     # caddy
     # gnupg
+    nil
     uv
     # # productivity
     # glow # markdown previewer in terminal

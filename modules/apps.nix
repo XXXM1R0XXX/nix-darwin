@@ -63,7 +63,7 @@
     taps = [
       # "homebrew/bundle"
       # "homebrew/cask"
-      "tw93/tap"
+      # "tw93/tap"
       "humansignal/tap"
       "nikitabobko/tap"
       "anomalyco/tap"
@@ -78,12 +78,14 @@
       # "aria2" # download tool
       # "httpie" # http client
       "humansignal/tap/label-studio"
-      "tw93/tap/mole"
+      # "tw93/tap/mole"
       "anomalyco/tap/opencode"
       "gh"
       "herdr"
       "hf"
       "rclone"
+      "mole"
+      "codex"
     ];
 
     # `brew install --cask`
@@ -95,10 +97,10 @@
       "arc"
       "logi-options+"
       "blender"
-      "motrix"
-      # "capcut"
+      "motrix@beta"
+      "capcut"
       "mactex-no-gui"
-      "jan"
+      # "jan"
       "ollama-app"
       "tor-browser"
       "balenaetcher"
@@ -117,7 +119,8 @@
       "zen"
       "spotify"
       "chatgpt"
-      "firefox"
+      # "firefox"
+      "obs"
     ];
   };
 }

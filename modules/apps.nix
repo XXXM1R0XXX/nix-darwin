@@ -85,7 +85,6 @@
       "hf"
       "rclone"
       "mole"
-      "codex"
     ];
 
     # `brew install --cask`
@@ -121,6 +120,7 @@
       "chatgpt"
       # "firefox"
       "obs"
+      "codex"
     ];
   };
 }
